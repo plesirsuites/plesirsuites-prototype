@@ -569,8 +569,8 @@
 </div>
 
 <audio id="audio" crossorigin="anonymous" preload="none">
-  <source src="https://static-s8.xajist.com:8016/plesirsuites" type="audio/mpeg">
-  <source src="https://static-s8.xajist.com:8016/plesirsuites.mp3" type="audio/mpeg">
+  <source src="http://static-s8.xajist.com:8016/plesirsuites" type="audio/mpeg">
+  <source src="http://static-s8.xajist.com:8016/plesirsuites.mp3" type="audio/mpeg">
 </audio>
 
 <!-- FOOTER -->
@@ -652,14 +652,18 @@ const audio = document.getElementById('audio');
 const playBtn = document.getElementById('playBtn');
 const nowTitle = document.getElementById('nowTitle');
 
-// Common Icecast mount point variations — tries each until one works
+// SSL is enabled on the Icecast server — use HTTPS directly
+const BASE = 'https://static-s8.xajist.com:8016';
+const PROXY = 'https://corsproxy.io/?url=';
+
 const STREAM_URLS = [
-  'http://static-s8.xajist.com:8016/plesirsuites',
-  'http://static-s8.xajist.com:8016/stream',
-  'http://static-s8.xajist.com:8016/live',
-  'http://static-s8.xajist.com:8016/radio',
-  'http://static-s8.xajist.com:8016/plesirsuites.mp3',
-  'http://static-s8.xajist.com:8016/plesirsuites.ogg',
+  BASE + '/plesirsuites',
+  BASE + '/stream',
+  BASE + '/live',
+  BASE + '/plesirsuites.mp3',
+  // Fallback via proxy in case of CORS issues on some devices
+  PROXY + encodeURIComponent('http://static-s8.xajist.com:8016/plesirsuites'),
+  PROXY + encodeURIComponent('http://static-s8.xajist.com:8016/stream'),
 ];
 let streamIndex = 0;
 
@@ -671,7 +675,7 @@ function setStatus(text, isError) {
 // Fetch now-playing metadata from Icecast status JSON
 async function fetchIcecastMeta() {
   try {
-    const res = await fetch('http://static-s8.xajist.com:8016/status-json.xsl', { cache: 'no-store' });
+    const res = await fetch(BASE + '/status-json.xsl', { cache: 'no-store' });
     const data = await res.json();
     const sources = data?.icestats?.source;
     const source = Array.isArray(sources)
@@ -688,38 +692,53 @@ function tryStream(index) {
     playing = false;
     return;
   }
+
   const url = STREAM_URLS[index];
-  setStatus(`Connecting…`, false);
-  audio.src = url;
+  setStatus('Connecting…', false);
+
+  // Reset audio completely before loading new source
+  audio.pause();
+  audio.removeAttribute('src');
   audio.load();
-  audio.play().catch(err => {
-    if (err.name === 'NotSupportedError') {
-      // Try next URL
-      tryStream(index + 1);
-    } else if (err.name === 'NotAllowedError') {
-      setStatus('Click PLAY again', false);
-      playBtn.textContent = 'PLAY';
-      playing = false;
-    } else {
-      setStatus(`Cannot connect: ${err.message}`, true);
-      playBtn.textContent = 'PLAY';
-      playing = false;
+
+  // Small delay to let the browser settle before new load
+  setTimeout(() => {
+    if (!playing) return; // user may have pressed stop already
+    audio.src = url;
+    audio.load();
+
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(err => {
+        if (!playing) return; // stopped by user, ignore
+        console.warn(`Stream ${index} failed (${err.name}):`, url);
+        if (err.name === 'AbortError' || err.name === 'NotSupportedError') {
+          tryStream(index + 1);
+        } else if (err.name === 'NotAllowedError') {
+          setStatus('Click PLAY again', false);
+          playBtn.textContent = 'PLAY';
+          playing = false;
+        } else {
+          // Try next on any other error
+          tryStream(index + 1);
+        }
+      });
     }
-  });
+  }, 150);
 }
 
 function togglePlay() {
   if (!playing) {
     playing = true;
-    streamIndex = 0;
     playBtn.textContent = 'STOP';
     tryStream(0);
   } else {
+    playing = false;
     audio.pause();
-    audio.src = '';
+    audio.removeAttribute('src');
+    audio.load();
     playBtn.textContent = 'PLAY';
     setStatus('No Live Show', false);
-    playing = false;
   }
 }
 
@@ -728,25 +747,44 @@ audio.addEventListener('playing', () => {
   playBtn.textContent = 'STOP';
   playing = true;
   fetchIcecastMeta();
-  // Log which URL worked
   console.log('✓ Streaming from:', audio.src);
 });
 
 audio.addEventListener('waiting', () => { if (playing) setStatus('Buffering…', false); });
-audio.addEventListener('stalled', () => { if (playing) setStatus('Stalled…', false); });
+audio.addEventListener('stalled', () => {
+  if (!playing) return;
+  setStatus('Stalled — retrying…', false);
+  // Auto-retry on stall after 3 seconds
+  setTimeout(() => {
+    if (playing) {
+      const currentSrc = audio.src;
+      audio.pause();
+      audio.src = currentSrc;
+      audio.load();
+      setTimeout(() => { if (playing) audio.play().catch(() => {}); }, 150);
+    }
+  }, 3000);
+});
 
 audio.addEventListener('error', () => {
   if (!playing) return;
-  // Try next mount point on error
-  const nextIndex = STREAM_URLS.indexOf(audio.src) + 1;
+  const nextIndex = STREAM_URLS.findIndex(u => audio.src.includes(encodeURIComponent(u)) || audio.src === u) + 1;
   if (nextIndex > 0 && nextIndex < STREAM_URLS.length) {
     tryStream(nextIndex);
   } else {
-    setStatus('Stream error — check server', true);
-    playBtn.textContent = 'PLAY';
-    playing = false;
+    tryStream(1); // fallback: try second URL
   }
 });
+
+// iOS Safari requires audio element to be "unlocked" on first tap
+// We do this by loading silently on first any-touch before user presses play
+let audioUnlocked = false;
+document.addEventListener('touchstart', () => {
+  if (!audioUnlocked) {
+    audioUnlocked = true;
+    audio.load();
+  }
+}, { once: true });
 
 setInterval(() => { if (playing) fetchIcecastMeta(); }, 30000);
 
