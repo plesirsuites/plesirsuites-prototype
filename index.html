@@ -568,11 +568,7 @@
   <button class="load-btn" id="loadMoreBtn" onclick="loadMore()">Load More</button>
 </div>
 
-<audio id="audio" crossorigin="anonymous" preload="none">
-  <source src="https://static-s8.xajist.com:8016/stream" type="audio/aac">
-  <source src="https://static-s8.xajist.com:8016/stream" type="audio/aacp">
-  <source src="https://static-s8.xajist.com:8016/stream" type="audio/mp4">
-</audio>
+<audio id="audio" preload="none"></audio>
 
 <!-- FOOTER -->
 <footer id="about">
@@ -648,85 +644,69 @@ window.addEventListener('load', registerAllIframes);
 setTimeout(registerAllIframes, 2000);
 
 /* ── PLAYER ── */
-let playing = false;
-const audio = document.getElementById('audio');
-const playBtn = document.getElementById('playBtn');
-const nowTitle = document.getElementById('nowTitle');
-
-// SSL is enabled on the Icecast server — use HTTPS directly
-const BASE = 'http://static-s8.xajist.com:8016';
-const PROXY = 'https://corsproxy.io/?url=';
+// Correct SSL stream URL from Muses Radio Player config
+const STREAM_HTTPS = 'https://static-s8.xajist.com/sslstream/8016';
+const STREAM_HTTP  = 'http://static-s8.xajist.com:8016/stream';
 
 const STREAM_URLS = [
-  BASE + '/stream',
-  // Proxy fallback for devices with CORS issues
-  PROXY + encodeURIComponent('http://static-s8.xajist.com:8016/stream'),
+  STREAM_HTTPS,                                                          // 1. Direct HTTPS SSL stream (correct URL)
+  'https://corsproxy.io/?url=' + encodeURIComponent(STREAM_HTTP),        // 2. Proxy fallback
+  'https://api.allorigins.win/raw?url=' + encodeURIComponent(STREAM_HTTP), // 3. allorigins fallback
 ];
-let streamIndex = 0;
+
+let playing    = false;
+let retryTimer = null;
+let urlIndex   = 0;
+const audio    = document.getElementById('audio');
+const playBtn  = document.getElementById('playBtn');
+const nowTitle = document.getElementById('nowTitle');
 
 function setStatus(text, isError) {
   playBtn.style.color = isError ? '#e03030' : '';
   nowTitle.textContent = text;
 }
 
-// Fetch now-playing metadata from Icecast status JSON
-async function fetchIcecastMeta() {
-  try {
-    const res = await fetch(BASE + '/status-json.xsl', { cache: 'no-store' });
-    const data = await res.json();
-    const sources = data?.icestats?.source;
-    const source = Array.isArray(sources)
-      ? sources.find(s => s.listenurl?.includes('plesirsuites')) || sources[0]
-      : sources;
-    if (source && source.title) nowTitle.textContent = source.title;
-  } catch(e) {}
-}
+function startStream(index) {
+  if (index === undefined) index = urlIndex;
+  if (index >= STREAM_URLS.length) index = 0; // cycle back
+  urlIndex = index;
 
-function tryStream(index) {
-  if (index >= STREAM_URLS.length) {
-    setStatus('Stream unavailable — check mount point', true);
-    playBtn.textContent = 'PLAY';
-    playing = false;
-    // Show exactly what was tried in console
-    console.error('❌ All stream URLs failed:', STREAM_URLS);
-    return;
-  }
-
-  const url = STREAM_URLS[index];
-  setStatus(`Connecting… (${index + 1}/${STREAM_URLS.length})`, false);
-  console.log(`🔄 Trying [${index + 1}/${STREAM_URLS.length}]:`, url);
-
+  clearTimeout(retryTimer);
   audio.pause();
   audio.removeAttribute('src');
   audio.load();
 
+  const url = STREAM_URLS[index];
+  setStatus('Connecting…', false);
+  console.log(`🔄 Trying URL [${index}]:`, url);
+
   setTimeout(() => {
     if (!playing) return;
     audio.src = url;
-    audio.load();
-
-    const playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(err => {
-        if (!playing) return;
-        console.warn(`⚠️ [${index}] ${err.name}: ${err.message} → ${url}`);
-        if (err.name === 'AbortError' || err.name === 'NotSupportedError' || err.name === 'NotAllowedError') {
-          tryStream(index + 1);
-        } else {
-          tryStream(index + 1);
-        }
-      });
-    }
-  }, 200);
+    audio.play().catch(err => {
+      if (!playing) return;
+      console.warn(`⚠️ URL[${index}] ${err.name}:`, err.message);
+      if (err.name === 'NotAllowedError') {
+        setStatus('Tap PLAY to start', false);
+        playBtn.textContent = 'PLAY';
+        playing = false;
+      } else {
+        // Try next proxy after short delay
+        retryTimer = setTimeout(() => startStream(index + 1), 1500);
+      }
+    });
+  }, 300);
 }
 
 function togglePlay() {
   if (!playing) {
-    playing = true;
+    playing  = true;
+    urlIndex = 0;
     playBtn.textContent = 'STOP';
-    tryStream(0);
+    startStream(0);
   } else {
     playing = false;
+    clearTimeout(retryTimer);
     audio.pause();
     audio.removeAttribute('src');
     audio.load();
@@ -736,50 +716,60 @@ function togglePlay() {
 }
 
 audio.addEventListener('playing', () => {
+  clearTimeout(retryTimer);
   setStatus('● LIVE', false);
   playBtn.textContent = 'STOP';
+  playBtn.style.color = '';
   playing = true;
+  console.log('✓ Playing via:', audio.src);
   fetchIcecastMeta();
-  console.log('✓ Streaming from:', audio.src);
 });
 
-audio.addEventListener('waiting', () => { if (playing) setStatus('Buffering…', false); });
+audio.addEventListener('waiting', () => {
+  if (playing) setStatus('Buffering…', false);
+});
+
 audio.addEventListener('stalled', () => {
   if (!playing) return;
-  setStatus('Stalled — retrying…', false);
-  // Auto-retry on stall after 3 seconds
-  setTimeout(() => {
-    if (playing) {
-      const currentSrc = audio.src;
-      audio.pause();
-      audio.src = currentSrc;
-      audio.load();
-      setTimeout(() => { if (playing) audio.play().catch(() => {}); }, 150);
-    }
-  }, 3000);
+  setStatus('Reconnecting…', false);
+  clearTimeout(retryTimer);
+  // Retry same URL first, then next
+  retryTimer = setTimeout(() => startStream(urlIndex), 3000);
 });
 
 audio.addEventListener('error', () => {
   if (!playing) return;
-  const nextIndex = STREAM_URLS.findIndex(u => audio.src.includes(encodeURIComponent(u)) || audio.src === u) + 1;
-  if (nextIndex > 0 && nextIndex < STREAM_URLS.length) {
-    tryStream(nextIndex);
-  } else {
-    tryStream(1); // fallback: try second URL
-  }
+  console.warn('Audio error, trying next proxy…', audio.error?.code);
+  clearTimeout(retryTimer);
+  retryTimer = setTimeout(() => startStream(urlIndex + 1), 1500);
 });
 
-// iOS Safari requires audio element to be "unlocked" on first tap
-// We do this by loading silently on first any-touch before user presses play
-let audioUnlocked = false;
-document.addEventListener('touchstart', () => {
-  if (!audioUnlocked) {
-    audioUnlocked = true;
-    audio.load();
-  }
-}, { once: true });
+audio.addEventListener('ended', () => {
+  if (playing) retryTimer = setTimeout(() => startStream(urlIndex), 1000);
+});
 
-setInterval(() => { if (playing) fetchIcecastMeta(); }, 30000);
+// Fetch now-playing song title
+async function fetchIcecastMeta() {
+  const urls = [
+    'https://corsproxy.io/?url=' + encodeURIComponent('http://static-s8.xajist.com:8016/status-json.xsl'),
+    'https://static-s8.xajist.com:8016/status-json.xsl',
+  ];
+  for (const url of urls) {
+    try {
+      const res  = await fetch(url, { cache: 'no-store' });
+      const data = await res.json();
+      const src  = data?.icestats?.source;
+      const s    = Array.isArray(src) ? src[0] : src;
+      if (s?.title && playing) { setStatus(s.title, false); return; }
+    } catch(e) { /* try next */ }
+  }
+}
+setInterval(() => { if (playing) fetchIcecastMeta(); }, 15000);
+
+// Unlock AudioContext on first touch (iOS Safari)
+document.addEventListener('touchstart', () => {
+  try { new (window.AudioContext || window.webkitAudioContext)().resume(); } catch(e) {}
+}, { once: true });
 
 /* ── SCHEDULE / NOW PLAYING ── */
 const scheduleData = {
