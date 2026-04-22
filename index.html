@@ -569,8 +569,9 @@
 </div>
 
 <audio id="audio" crossorigin="anonymous" preload="none">
-  <source src="http://static-s8.xajist.com:8016/plesirsuites" type="audio/mpeg">
-  <source src="http://static-s8.xajist.com:8016/plesirsuites.mp3" type="audio/mpeg">
+  <source src="https://static-s8.xajist.com:8016/stream" type="audio/aac">
+  <source src="https://static-s8.xajist.com:8016/stream" type="audio/aacp">
+  <source src="https://static-s8.xajist.com:8016/stream" type="audio/mp4">
 </audio>
 
 <!-- FOOTER -->
@@ -657,12 +658,8 @@ const BASE = 'https://static-s8.xajist.com:8016';
 const PROXY = 'https://corsproxy.io/?url=';
 
 const STREAM_URLS = [
-  BASE + '/plesirsuites',
   BASE + '/stream',
-  BASE + '/live',
-  BASE + '/plesirsuites.mp3',
-  // Fallback via proxy in case of CORS issues on some devices
-  PROXY + encodeURIComponent('http://static-s8.xajist.com:8016/plesirsuites'),
+  // Proxy fallback for devices with CORS issues
   PROXY + encodeURIComponent('http://static-s8.xajist.com:8016/stream'),
 ];
 let streamIndex = 0;
@@ -690,41 +687,37 @@ function tryStream(index) {
     setStatus('Stream unavailable — check mount point', true);
     playBtn.textContent = 'PLAY';
     playing = false;
+    // Show exactly what was tried in console
+    console.error('❌ All stream URLs failed:', STREAM_URLS);
     return;
   }
 
   const url = STREAM_URLS[index];
-  setStatus('Connecting…', false);
+  setStatus(`Connecting… (${index + 1}/${STREAM_URLS.length})`, false);
+  console.log(`🔄 Trying [${index + 1}/${STREAM_URLS.length}]:`, url);
 
-  // Reset audio completely before loading new source
   audio.pause();
   audio.removeAttribute('src');
   audio.load();
 
-  // Small delay to let the browser settle before new load
   setTimeout(() => {
-    if (!playing) return; // user may have pressed stop already
+    if (!playing) return;
     audio.src = url;
     audio.load();
 
     const playPromise = audio.play();
     if (playPromise !== undefined) {
       playPromise.catch(err => {
-        if (!playing) return; // stopped by user, ignore
-        console.warn(`Stream ${index} failed (${err.name}):`, url);
-        if (err.name === 'AbortError' || err.name === 'NotSupportedError') {
+        if (!playing) return;
+        console.warn(`⚠️ [${index}] ${err.name}: ${err.message} → ${url}`);
+        if (err.name === 'AbortError' || err.name === 'NotSupportedError' || err.name === 'NotAllowedError') {
           tryStream(index + 1);
-        } else if (err.name === 'NotAllowedError') {
-          setStatus('Click PLAY again', false);
-          playBtn.textContent = 'PLAY';
-          playing = false;
         } else {
-          // Try next on any other error
           tryStream(index + 1);
         }
       });
     }
-  }, 150);
+  }, 200);
 }
 
 function togglePlay() {
