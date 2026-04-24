@@ -285,13 +285,14 @@
 
   .shows-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     margin-bottom: 24px;
   }
 
-  @media (max-width: 900px) { .shows-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 580px) { .shows-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 1100px) { .shows-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 900px)  { .shows-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 580px)  { .shows-grid { grid-template-columns: repeat(2, 1fr); } }
 
   .show-card {
     border: 1px solid var(--border);
@@ -666,6 +667,18 @@
       </div>
     </div>
 
+    <div class="show-card mixcloud" onclick="openMcPopup('/plesirsuites_radio/p-suites-r051-rio/', 'P·Suites R051 — Rio')">
+      <div class="show-thumb">
+        <div class="show-thumb-inner" id="cover-r051" style="background:#111;background-size:cover;background-position:center;"></div>
+        <div class="play-overlay"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      </div>
+      <div class="show-info">
+        <div class="show-meta"><span class="show-cat">Archive</span><span class="show-ep">R051</span></div>
+        <div class="show-name">Rio</div>
+        <div class="show-sub" data-key="/plesirsuites_radio/p-suites-r051-rio/">Loading…</div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -930,9 +943,8 @@ startProgress();
 
 /* ── LOAD MORE — live Mixcloud API ── */
 const MIXCLOUD_USER = 'plesirsuites_radio';
-const PER_PAGE = 3;
-// We already show 3 hardcoded cards, so start offset at 3
-let mcOffset = 3;
+const PER_PAGE = 4;
+let mcOffset = 4;
 let mcNextUrl = null;
 let mcLoading = false;
 let mcExhausted = false;
@@ -957,6 +969,7 @@ async function populateHardcodedCards() {
     { key: '/plesirsuites_radio/p-suites-r054-jemput-dengar/', coverId: 'cover-r054' },
     { key: '/plesirsuites_radio/p-suites-r053-aldi/',          coverId: 'cover-r053' },
     { key: '/plesirsuites_radio/p-suites-r052-ical/',          coverId: 'cover-r052' },
+    { key: '/plesirsuites_radio/p-suites-r051-rio/',          coverId: 'cover-r051' },
   ];
   for (const c of cards) {
     const data = await fetchMcData(c.key);
