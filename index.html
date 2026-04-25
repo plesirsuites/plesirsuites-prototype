@@ -129,7 +129,246 @@
   .h-nav a:last-child { border-right: none; }
   .h-nav a:hover { background: var(--black); color: var(--accent); }
 
-  /* ── HERO SLIDESHOW ── */
+  /* ── LIVE NOW BAR ── */
+  .live-now-bar {
+    display: flex;
+    align-items: center;
+    background: var(--black);
+    color: var(--white);
+    height: 38px;
+    border-bottom: 1px solid #222;
+    cursor: default;
+    user-select: none;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .live-now-content {
+    flex: 1;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .live-now-marquee-wrap {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  .live-now-marquee {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    animation: marquee 32s linear infinite;
+    gap: 120px;
+    will-change: transform;
+  }
+  .live-now-marquee:hover { animation-play-state: paused; }
+
+  .live-now-marquee span {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  /* separator dot between repeats */
+  .live-now-marquee span::after {
+    content: ' · · · ';
+    color: #444;
+    margin-left: 120px;
+  }
+  .live-now-marquee span:last-child::after { content: ''; }
+
+  @keyframes marquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .live-now-arrow {
+    padding: 0 16px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #666;
+    flex-shrink: 0;
+    border-left: 1px solid #222;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    transition: color 0.15s;
+    white-space: nowrap;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .live-now-arrow:hover { color: #fff; background: #111; }
+
+  /* ── SCHEDULE DROPDOWN ── */
+  .schedule-section {
+    display: none;
+    background: var(--black);
+    color: var(--white);
+    border-bottom: 1px solid #222;
+  }
+  .schedule-section.open { display: block; }
+
+  /* Header row with close */
+  .schedule-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #222;
+  }
+
+  .sched-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 20px;
+  }
+
+  .sched-header-meta {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #555;
+  }
+
+  .sched-on-air {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sched-on-air-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #e03030;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+
+  .sched-on-air-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  .schedule-close {
+    background: none;
+    border: none;
+    border-left: 1px solid #222;
+    color: #555;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: color 0.15s;
+    flex-shrink: 0;
+  }
+  .schedule-close:hover { color: #fff; }
+
+  /* Horizontal days grid */
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border-top: 1px solid #222;
+    overflow-x: auto;
+  }
+
+  .sched-col {
+    border-right: 1px solid #222;
+    min-width: 140px;
+  }
+  .sched-col:last-child { border-right: none; }
+
+  .sched-col-header {
+    padding: 10px 14px;
+    border-bottom: 1px solid #222;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .sched-col-header.today {
+    color: #fff;
+    background: #111;
+  }
+
+  .sched-col-header.today .sched-col-day {
+    color: #fff;
+  }
+
+  .sched-col-date {
+    font-size: 9px;
+    color: #444;
+  }
+
+  .sched-col-shows {
+    padding: 8px 0;
+  }
+
+  .sched-item {
+    padding: 10px 14px;
+    border-bottom: 1px solid #1a1a1a;
+    cursor: default;
+    transition: background 0.15s;
+  }
+  .sched-item:last-child { border-bottom: none; }
+  .sched-item:hover { background: #111; }
+
+  .sched-item-time {
+    font-size: 9px;
+    color: #555;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+
+  .sched-item-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 3px;
+  }
+
+  .sched-item-desc {
+    font-size: 10px;
+    color: #555;
+    line-height: 1.4;
+  }
+
+  .sched-item.live { background: #0e0e0e; border-left: 2px solid #e03030; }
+  .sched-item.live .sched-item-time { color: #e03030; }
+  .sched-item.live .sched-item-title { color: #fff; }
+
+  .sched-empty {
+    padding: 16px 14px;
+    font-size: 10px;
+    color: #333;
+  }
+
+  @media (max-width: 900px) {
+    .schedule-grid { grid-template-columns: repeat(7, minmax(130px, 1fr)); }
+  }
   .hero {
     position: relative;
     width: 100%;
@@ -274,10 +513,12 @@
   }
 
   .section-label {
-    font-size: 10px;
-    letter-spacing: 0.14em;
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--mid);
+    color: var(--black);
     margin-bottom: 16px;
     padding-bottom: 10px;
     border-bottom: 1px solid var(--border);
@@ -545,18 +786,48 @@
     <button class="play-btn" id="playBtn" onclick="togglePlay()">PLAY</button>
     <div class="h-now">
       <div class="live-dot"></div>
-      <div class="now-text"><span id="nowTitle">Loading…</span></div>
+      <div class="now-text"><span id="nowTitle">Diverse sounds and community broadcasts, all day, every day.</span></div>
     </div>
   </div>
 
   <nav class="h-nav">
     <a href="#about">About</a>
-    <a href="#schedule">Schedule</a>
+    <a href="#" onclick="toggleSchedule(); return false;">Schedule</a>
     <a href="#shows">Shows</a>
     <a href="#">Shop</a>
     <a href="#">Donate</a>
   </nav>
 </header>
+
+<!-- LIVE NOW BAR -->
+<div class="live-now-bar">
+  <div class="live-now-content">
+    <div class="live-now-marquee-wrap">
+      <div class="live-now-marquee" id="liveNowMarquee">
+        <span id="liveNowTitle">Loading…</span>
+        <span id="liveNowTitle2">Loading…</span>
+        <span id="liveNowTitle3">Loading…</span>
+        <span id="liveNowTitle4">Loading…</span>
+      </div>
+    </div>
+  </div>
+  <div class="live-now-arrow" id="schedArrow" onclick="toggleSchedule()">Schedule ›</div>
+</div>
+
+<!-- SCHEDULE DROPDOWN -->
+<div class="schedule-section" id="scheduleSection">
+  <div class="schedule-header">
+    <div class="sched-header-left">
+      <div class="sched-header-meta">Schedule</div>
+      <div class="sched-on-air">
+        <div class="sched-on-air-dot"></div>
+        <span class="sched-on-air-title" id="schedOnAirTitle">Loading…</span>
+      </div>
+    </div>
+    <button class="schedule-close" onclick="toggleSchedule()">Close ✕</button>
+  </div>
+  <div class="schedule-grid" id="scheduleGrid"></div>
+</div>
 
 <!-- HERO SLIDESHOW -->
 <div class="hero" id="hero">
@@ -707,7 +978,7 @@
   </div>
   <div class="footer-copy">
     <span>© 2026 Plesir Suites Radio</span>
-    <span id="schedule">Schedule available on request</span>
+    <span>Schedule — updated weekly</span>
   </div>
 </footer>
 
@@ -806,13 +1077,13 @@ function togglePlay() {
     audio.removeAttribute('src');
     audio.load();
     playBtn.textContent = 'PLAY';
-    setStatus('No Live Show', false);
+    setStatus('Diverse sounds and community broadcasts, all day, every day.', false);
   }
 }
 
 audio.addEventListener('playing', () => {
   clearTimeout(retryTimer);
-  setStatus('● LIVE', false);
+  setStatus('Diverse sounds and community broadcasts, all day, every day.', false);
   playBtn.textContent = 'STOP';
   playBtn.style.color = '';
   playing = true;
@@ -862,7 +1133,7 @@ async function fetchIcecastMeta() {
     } catch(e) { /* try next */ }
   }
   // If all fail and not playing, show default
-  if (!playing) setStatus('No Live Show', false);
+  if (!playing) setStatus('Diverse sounds and community broadcasts, all day, every day.', false);
 }
 // Poll every 15s always — not just when playing
 setInterval(fetchIcecastMeta, 15000);
@@ -1006,6 +1277,127 @@ function buildCard(cast) {
   return card;
 }
 
+/* ── SCHEDULE ── */
+const SCHEDULE = {
+  Monday: [
+    { time: '12:00', end: '14:00', title: 'Midday Selects',    desc: 'Curated midday sounds to ease you in.' },
+    { time: '14:00', end: '16:00', title: 'Halcyon',           desc: 'Ambient journeys by Rofeli.' },
+    { time: '20:00', end: '22:00', title: 'Night Protocol',    desc: 'Ritual electronics and modular experiments.' },
+  ],
+  Tuesday: [
+    { time: '15:00', end: '17:00', title: 'Deep Flow',         desc: 'Deep house and slow grooves.' },
+    { time: '18:00', end: '20:00', title: 'Echo Room',         desc: 'Reverb-drenched selections.' },
+  ],
+  Wednesday: [
+    { time: '13:00', end: '15:00', title: 'Neighbourhood Mix', desc: 'Community-curated sounds from Balikpapan.' },
+    { time: '21:00', end: '23:00', title: 'Resonance',         desc: 'A deep techno exploration.' },
+  ],
+  Thursday: [
+    { time: '14:00', end: '16:00', title: 'Jemput Dengar',     desc: 'Open submission series — your picks.' },
+    { time: '19:00', end: '21:00', title: 'Low Frequency',     desc: 'Bass-heavy selections for the evening.' },
+  ],
+  Friday: [
+    { time: '16:00', end: '18:00', title: 'Weekend Warmup',    desc: 'Getting you ready for the weekend.' },
+    { time: '21:00', end: '23:00', title: 'Late Shift',        desc: 'Long mixes for the night.' },
+  ],
+  Saturday: [
+    { time: '14:00', end: '17:00', title: 'Plesir Selects',    desc: 'The best of the week, curated by the team.' },
+    { time: '20:00', end: '23:00', title: 'Saturday Sessions', desc: 'Three hours of uninterrupted sounds.' },
+  ],
+  Sunday: [
+    { time: '12:00', end: '14:00', title: 'Sunday Morning',    desc: 'Easy listening for a slow Sunday.' },
+    { time: '16:00', end: '18:00', title: 'Closing Set',       desc: 'Wrapping up the week with care.' },
+  ],
+};
+
+const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+
+function toMins(t) { const [h,m] = t.split(':').map(Number); return h*60+m; }
+
+function getCurrentAndNext() {
+  const now  = new Date();
+  const day  = now.toLocaleString('en-US', { weekday: 'long' });
+  const mins = now.getHours()*60 + now.getMinutes();
+  const shows = SCHEDULE[day] || [];
+  let current = null, next = null;
+  for (let i = 0; i < shows.length; i++) {
+    const s = shows[i];
+    if (mins >= toMins(s.time) && mins < toMins(s.end)) {
+      current = s; next = shows[i+1] || null; break;
+    }
+    if (toMins(s.time) > mins && !next) next = s;
+  }
+  if (!current && !next) {
+    const tIdx = (DAYS.indexOf(day)+1) % 7;
+    next = (SCHEDULE[DAYS[tIdx]] || [])[0] || null;
+  }
+  return { current, next, day };
+}
+
+function buildLiveNowBar() {
+  const { current, day } = getCurrentAndNext();
+  const onAirEl = document.getElementById('schedOnAirTitle');
+
+  const text = current
+    ? current.time + ' – ' + current.end + '  ·  ' + current.title.toUpperCase()
+    : 'No Show On Air Right Now';
+
+  ['liveNowTitle','liveNowTitle2','liveNowTitle3','liveNowTitle4'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  });
+  if (onAirEl) onAirEl.textContent = current ? current.title.toUpperCase() : 'Off Air';
+}
+
+function buildSchedule() {
+  const grid = document.getElementById('scheduleGrid');
+  if (!grid) return;
+  const today   = new Date().toLocaleString('en-US', { weekday: 'long' });
+  const nowMins = new Date().getHours()*60 + new Date().getMinutes();
+
+  DAYS.forEach(day => {
+    const isToday = day === today;
+    const col = document.createElement('div');
+    col.className = 'sched-col';
+
+    const hdr = document.createElement('div');
+    hdr.className = 'sched-col-header' + (isToday ? ' today' : '');
+    hdr.innerHTML = '<span class="sched-col-day">' + day.slice(0,3).toUpperCase() + '</span>' +
+      (isToday ? '<span style="font-size:8px;color:#e03030;letter-spacing:0.1em;">TODAY</span>' : '');
+    col.appendChild(hdr);
+
+    const showsEl = document.createElement('div');
+    showsEl.className = 'sched-col-shows';
+
+    const shows = SCHEDULE[day] || [];
+    if (!shows.length) {
+      showsEl.innerHTML = '<div class="sched-empty">No shows</div>';
+    } else {
+      shows.forEach(s => {
+        const isLive = isToday && nowMins >= toMins(s.time) && nowMins < toMins(s.end);
+        const item = document.createElement('div');
+        item.className = 'sched-item' + (isLive ? ' live' : '');
+        item.innerHTML =
+          '<div class="sched-item-time">' + s.time + ' – ' + s.end + (isLive ? ' · ● LIVE' : '') + '</div>' +
+          '<div class="sched-item-title">' + s.title + '</div>' +
+          '<div class="sched-item-desc">' + s.desc + '</div>';
+        showsEl.appendChild(item);
+      });
+    }
+    col.appendChild(showsEl);
+    grid.appendChild(col);
+  });
+}
+
+function toggleSchedule() {
+  const sec   = document.getElementById('scheduleSection');
+  const arrow = document.getElementById('schedArrow');
+  sec.classList.toggle('open');
+  arrow.textContent = sec.classList.contains('open') ? '‹' : '›';
+}
+
+buildLiveNowBar();
+buildSchedule();
 populateHardcodedCards();
 
 async function loadMore() {
