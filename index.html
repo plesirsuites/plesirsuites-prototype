@@ -711,7 +711,144 @@
     align-items: end;
   }
 
-  /* ── BURGER (mobile only) ── */
+  /* ── ABOUT & SHOP OVERLAYS ── */
+  .fullscreen-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background: var(--black);
+    color: var(--white);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 80px 40px 40px;
+    text-align: center;
+    animation: fadeInOverlay 0.3s ease;
+    overflow-y: auto;
+  }
+  .fullscreen-overlay.open {
+    display: flex !important;
+  }
+
+  @keyframes fadeInOverlay {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .overlay-close {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: 1px solid #333;
+    color: #666;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+    z-index: 501;
+  }
+  .overlay-close:hover { color: #fff; border-color: #fff; }
+
+  .overlay-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 28px;
+  }
+
+  .overlay-text {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(16px, 2.8vw, 42px);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    max-width: min(900px, 90vw);
+    word-break: break-word;
+  }
+
+  .overlay-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: #555;
+    margin-top: 28px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    max-width: min(700px, 90vw);
+  }
+
+  @media (max-width: 600px) {
+    .overlay-text { font-size: clamp(14px, 5vw, 26px); }
+    .fullscreen-overlay { padding: 70px 24px 32px; }
+  }
+
+  /* Shows overlay specific */
+  .shows-overlay {
+    padding: 0 !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    flex-direction: column !important;
+  }
+  .shows-overlay-header {
+    position: sticky; top: 0; z-index: 502;
+    background: var(--black); border-bottom: 1px solid #222;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px; height: 52px; flex-shrink: 0;
+  }
+  .shows-overlay-title {
+    font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800;
+    letter-spacing: 0.1em; text-transform: uppercase; color: #fff;
+  }
+  .shows-overlay-close {
+    background: none; border: 1px solid #333; color: #666;
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 6px 14px; cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .shows-overlay-close:hover { color: #fff; border-color: #fff; }
+  .shows-overlay-body { overflow-y: auto; flex: 1; padding: 20px; }
+  .shows-overlay-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 16px; margin-bottom: 24px;
+  }
+  @media (max-width: 1100px) { .shows-overlay-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 700px)  { .shows-overlay-grid { grid-template-columns: repeat(2, 1fr); } }
+  .shows-overlay-load { display: flex; justify-content: center; padding: 8px 0 20px; }
+  .shows-overlay-load button {
+    background: none; border: 1px solid #333; color: #666;
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 12px 40px; cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .shows-overlay-load button:hover { background: #fff; color: #000; }
+  .shows-overlay-load button:disabled { opacity: 0.35; pointer-events: none; }
+  .show-card-dark {
+    border: 1px solid #222; cursor: pointer; overflow: hidden;
+    transition: border-color 0.2s; background: #0e0e0e;
+  }
+  .show-card-dark:hover { border-color: #555; }
+  .show-card-dark:hover .show-thumb-inner { transform: scale(1.04); }
+  .show-card-dark .show-thumb {
+    width: 100%; aspect-ratio: 1/1; overflow: hidden;
+    background: #111; position: relative;
+  }
+  .show-card-dark .show-info { padding: 12px; border-top: 1px solid #222; }
+  .show-card-dark .show-meta { display: flex; justify-content: space-between; margin-bottom: 4px; }
+  .show-card-dark .show-cat { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #444; }
+  .show-card-dark .show-ep  { font-size: 9px; color: #444; }
+  .show-card-dark .show-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+  .show-card-dark .show-sub  { font-size: 10px; color: #444; line-height: 1.4; }
+
   .burger-btn {
     display: none;
   }
@@ -861,21 +998,21 @@
   </div>
 
   <nav class="h-nav">
-    <a href="#about">About</a>
+    <a href="#" onclick="openOverlay('aboutOverlay'); return false;">About</a>
     <a href="#" onclick="toggleSchedule(); return false;">Schedule</a>
-    <a href="#shows">Shows</a>
-    <a href="#">Shop</a>
-    <a href="#">Donate</a>
+    <a href="#" onclick="openOverlay('showsOverlay'); return false;">Shows</a>
+    <a href="#" onclick="openOverlay('shopOverlay'); return false;">Shop</a>
+    <a href="#">Support Us</a>
   </nav>
 </header>
 
 <!-- MOBILE MENU DROPDOWN -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#about" onclick="closeBurger()">About</a>
+  <a href="#" onclick="openOverlay('aboutOverlay'); closeBurger(); return false;">About</a>
   <a href="#" onclick="toggleSchedule(); closeBurger(); return false;">Schedule</a>
-  <a href="#shows" onclick="closeBurger()">Shows</a>
-  <a href="#" onclick="closeBurger()">Shop</a>
-  <a href="#" onclick="closeBurger()">Donate</a>
+  <a href="#" onclick="openOverlay('showsOverlay'); closeBurger(); return false;">Shows</a>
+  <a href="#" onclick="openOverlay('shopOverlay'); closeBurger(); return false;">Shop</a>
+  <a href="#" onclick="closeBurger()">Support Us</a>
 </div>
 
 <!-- LIVE NOW BAR -->
@@ -1069,6 +1206,36 @@
     </iframe>
     <button class="mc-popup-close" onclick="closeMcPopupBtn()">Close</button>
   </div>
+</div>
+
+<!-- SHOWS OVERLAY -->
+<div class="fullscreen-overlay shows-overlay" id="showsOverlay">
+  <div class="shows-overlay-header">
+    <div class="shows-overlay-title">Shows — Archive</div>
+    <button class="shows-overlay-close" onclick="closeOverlay('showsOverlay'); resetShowsOverlay();">Close ✕</button>
+  </div>
+  <div class="shows-overlay-body">
+    <div class="shows-overlay-grid" id="showsOverlayGrid"></div>
+    <div class="shows-overlay-load">
+      <button id="showsOverlayBtn" onclick="loadShowsOverlay()">Load More</button>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT OVERLAY -->
+<div class="fullscreen-overlay" id="aboutOverlay">
+  <button class="overlay-close" onclick="closeOverlay('aboutOverlay')">Close ✕</button>
+  <div class="overlay-label">Plesir Suites Radio</div>
+  <div class="overlay-text">Your neighbourhood's independent web radio. A collective space for diverse sounds and community broadcasts, emerging from South Kalimantan.</div>
+  <div class="overlay-sub">Built by the Neighborhood, for the Neighborhood.</div>
+</div>
+
+<!-- SHOP OVERLAY -->
+<div class="fullscreen-overlay" id="shopOverlay">
+  <button class="overlay-close" onclick="closeOverlay('shopOverlay')">Close ✕</button>
+  <div class="overlay-label">Plesir Suites Shop</div>
+  <div class="overlay-text">Coming Soon.</div>
+  <div class="overlay-sub">Limited edition merch. Designed in Indonesia. Shipped everywhere.</div>
 </div>
 
 <script src="https://widget.mixcloud.com/media/js/widgetapi.js"></script>
@@ -1475,6 +1642,120 @@ function toggleSchedule() {
   arrow.textContent = sec.classList.contains('open') ? '‹' : '›';
 }
 
+/* ── SHOWS OVERLAY ── */
+let sovNextUrl  = null;
+let sovLoading  = false;
+let sovExhausted = false;
+let sovInitialized = false;
+
+function buildShowCard(cast, dark = false) {
+  const feedKey  = cast.key;
+  const epMatch  = cast.name.match(/[Rr](\d{3})/);
+  const epLabel  = epMatch ? `R${epMatch[1]}` : '—';
+  const coverUrl = cast.pictures?.extra_large || cast.pictures?.large || cast.pictures?.medium || '';
+  const date     = cast.created_time
+    ? new Date(cast.created_time).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})
+    : '—';
+
+  const card = document.createElement('div');
+  card.className = dark ? 'show-card-dark' : 'show-card mixcloud';
+  card.onclick   = () => openMcPopup(feedKey, cast.name);
+  card.innerHTML = `
+    <div class="show-thumb">
+      <div class="show-thumb-inner" style="background:#111 url('${coverUrl}') center/cover no-repeat; width:100%; height:100%; transition:transform 0.5s ease;"></div>
+      <div class="play-overlay"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+    </div>
+    <div class="show-info">
+      <div class="show-meta"><span class="show-cat">Archive</span><span class="show-ep">${epLabel}</span></div>
+      <div class="show-name">${cast.name}</div>
+      <div class="show-sub">${date}</div>
+    </div>`;
+  return card;
+}
+
+async function loadShowsOverlay() {
+  if (sovLoading || sovExhausted) return;
+  sovLoading = true;
+
+  const btn  = document.getElementById('showsOverlayBtn');
+  const grid = document.getElementById('showsOverlayGrid');
+  btn.textContent = 'Loading…';
+  btn.disabled    = true;
+
+  try {
+    const url = sovNextUrl
+      ? sovNextUrl
+      : `https://api.mixcloud.com/plesirsuites_radio/cloudcasts/?limit=12&offset=0`;
+
+    const res  = await fetch(url);
+    const data = await res.json();
+
+    (data.data || []).forEach(cast => {
+      grid.appendChild(buildShowCard(cast, true));
+    });
+
+    sovNextUrl = data.paging?.next || null;
+
+    if (!sovNextUrl || !data.data?.length) {
+      sovExhausted    = true;
+      btn.textContent = 'All Shows Loaded';
+      btn.disabled    = true;
+    } else {
+      btn.textContent = 'Load More';
+      btn.disabled    = false;
+    }
+  } catch(e) {
+    btn.textContent = 'Retry';
+    btn.disabled    = false;
+  }
+
+  sovLoading = false;
+}
+
+function resetShowsOverlay() {
+  sovNextUrl    = null;
+  sovLoading    = false;
+  sovExhausted  = false;
+  sovInitialized = false;
+  document.getElementById('showsOverlayGrid').innerHTML = '';
+  const btn = document.getElementById('showsOverlayBtn');
+  btn.textContent = 'Load More';
+  btn.disabled    = false;
+}
+
+// Auto-load when Shows overlay opens
+const _openOverlay = openOverlay;
+function openOverlay(id) {
+  _openOverlay(id);
+  if (id === 'showsOverlay' && !sovInitialized) {
+    sovInitialized = true;
+    loadShowsOverlay();
+  }
+}
+
+function openOverlay(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (id === 'showsOverlay' && !sovInitialized) {
+    sovInitialized = true;
+    loadShowsOverlay();
+  }
+}
+
+function closeOverlay(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close overlay on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    ['aboutOverlay','shopOverlay','showsOverlay'].forEach(id => closeOverlay(id));
+    if (document.getElementById('showsOverlay').classList.contains('open') === false) resetShowsOverlay();
+    closeBurger();
+  }
+});
+
 function toggleBurger() {
   const btn  = document.getElementById('burgerBtn');
   const menu = document.getElementById('mobileMenu');
@@ -1487,11 +1768,15 @@ function closeBurger() {
   document.getElementById('mobileMenu').classList.remove('open');
 }
 
-// Close burger on outside click
+// Close burger on outside click (but not on nav links or overlays)
 document.addEventListener('click', e => {
   const btn  = document.getElementById('burgerBtn');
   const menu = document.getElementById('mobileMenu');
-  if (!btn.contains(e.target) && !menu.contains(e.target)) closeBurger();
+  if (!btn || !menu) return;
+  if (btn.contains(e.target) || menu.contains(e.target)) return;
+  if (e.target.closest('.fullscreen-overlay')) return;
+  if (e.target.closest('.h-nav')) return;
+  closeBurger();
 });
 
 buildLiveNowBar();
