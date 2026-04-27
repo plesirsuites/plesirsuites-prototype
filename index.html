@@ -803,8 +803,8 @@
 
   .overlay-text {
     font-family: 'Syne', sans-serif;
-    font-size: clamp(16px, 2.8vw, 42px);
-    font-weight: 800;
+    font-size: clamp(10px, 1.8vw, 30px);
+    font-weight:800;
     line-height: 1.15;
     letter-spacing: -0.01em;
     text-transform: uppercase;
@@ -1042,7 +1042,7 @@
     <a href="#" onclick="toggleSchedule(); return false;">Schedule</a>
     <a href="#" onclick="openOverlay('showsOverlay'); return false;">Shows</a>
     <a href="#" onclick="openOverlay('shopOverlay'); return false;">Shop</a>
-    <a href="#">Support Us</a>
+    <a href="#" onclick="openOverlay('supportusOverlay'); return false;">Support Us</a>
   </nav>
 </header>
 
@@ -1052,7 +1052,7 @@
   <a href="#" onclick="toggleSchedule(); closeBurger(); return false;">Schedule</a>
   <a href="#" onclick="openOverlay('showsOverlay'); closeBurger(); return false;">Shows</a>
   <a href="#" onclick="openOverlay('shopOverlay'); closeBurger(); return false;">Shop</a>
-  <a href="#" onclick="closeBurger()">Support Us</a>
+  <a href="#" onclick="openOverlay('supportusOverlay'); closeBurger(); return false;">Support Us</a>
 </div>
 
 <!-- LIVE NOW BAR -->
@@ -1287,6 +1287,14 @@
   <div class="overlay-label">Plesir Suites Shop</div>
   <div class="overlay-text">Coming Soon.</div>
   <div class="overlay-sub">Limited edition merch. Designed in Indonesia. Shipped everywhere.</div>
+</div>
+
+<!-- SUPPORT US OVERLAY -->
+<div class="fullscreen-overlay" id="supportusOverlay">
+  <button class="overlay-close" onclick="closeOverlay('supportusOverlay')">Close ✕</button>
+  <div class="overlay-label">Support Us</div>
+  <div class="overlay-text">We’re just a group of people who love good music and our local scene. We want to keep Plesir Suites as a free space for everyone to explore new sounds, but we can't do it alone. By supporting us, you’re helping keep the broadcast crisp and we keep the sounds on</div>
+  <div class="overlay-sub">Plesir Suites Radio</div>
 </div>
 
 <script src="https://widget.mixcloud.com/media/js/widgetapi.js"></script>
@@ -1637,7 +1645,7 @@ function buildLiveNowBar() {
 
   const text = current
     ? current.time + ' – ' + current.end + '  ·  ' + current.title.toUpperCase()
-    : 'No Show On Air Right Now';
+    : 'Catch us at our next scheduled time!';
 
   ['liveNowTitle','liveNowTitle2','liveNowTitle3','liveNowTitle4'].forEach(id => {
     const el = document.getElementById(id);
@@ -1801,7 +1809,7 @@ function closeOverlay(id) {
 // Close overlay on Escape
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
-    ['aboutOverlay','shopOverlay','showsOverlay'].forEach(id => closeOverlay(id));
+    ['aboutOverlay','shopOverlay','showsOverlay','supportusOverlay'].forEach(id => closeOverlay(id));
     if (document.getElementById('showsOverlay').classList.contains('open') === false) resetShowsOverlay();
     closeBurger();
   }
