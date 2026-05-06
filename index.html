@@ -1113,7 +1113,296 @@
   }
   .shop-notify-btn:hover { opacity: 0.75; }
 
-  /* ── ABOUT & SHOP OVERLAYS ── */
+  /* ── NEWSLETTER OVERLAY ── */
+  .newsletter-overlay {
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: left !important;
+    padding: 80px 40px 40px !important;
+  }
+
+  .newsletter-inner {
+    max-width: 520px;
+    width: 100%;
+  }
+
+  .newsletter-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .newsletter-desc {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.7;
+    letter-spacing: 0.04em;
+    margin-bottom: 36px;
+  }
+
+  .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .newsletter-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .newsletter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .newsletter-label {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #555;
+  }
+
+  .newsletter-input {
+    background: #111;
+    border: 1px solid #333;
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    padding: 14px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .newsletter-input::placeholder { color: #444; }
+  .newsletter-input:focus { border-color: #666; }
+
+  .newsletter-submit {
+    background: var(--accent);
+    border: none;
+    color: #000;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 16px 28px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    text-align: center;
+    margin-top: 4px;
+  }
+  .newsletter-submit:hover { opacity: 0.85; }
+
+  .newsletter-note {
+    font-size: 10px;
+    color: #444;
+    letter-spacing: 0.06em;
+    margin-top: 12px;
+  }
+
+  .newsletter-success {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 24px;
+    padding: 20px;
+    border: 1px solid #333;
+    background: #111;
+  }
+  .newsletter-success.show { display: flex; }
+
+  .newsletter-success-icon {
+    font-size: 20px;
+    color: var(--accent);
+  }
+
+  .newsletter-success-text {
+    font-size: 13px;
+    color: #fff;
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 600px) {
+    .newsletter-overlay { padding: 70px 24px 32px !important; }
+  }
+
+  /* ── PRODUCT DETAIL OVERLAY ── */
+  .product-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 600;
+    background: rgba(0,0,0,0.75);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeInOverlay 0.25s ease;
+  }
+  .product-overlay.open { display: flex; }
+
+  .product-modal {
+    background: #111;
+    border: 1px solid #222;
+    width: 100%;
+    max-width: 860px;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    animation: slideUp 0.25s ease;
+  }
+
+  @media (max-width: 640px) {
+    .product-modal { grid-template-columns: 1fr; }
+  }
+
+  .product-modal-img {
+    aspect-ratio: 1/1;
+    background: #1a1a1a;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+  }
+
+  .product-modal-img-placeholder {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #333;
+    border: 1px solid #222;
+    padding: 6px 14px;
+  }
+
+  .product-modal-info {
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border-left: 1px solid #222;
+  }
+
+  .product-modal-tag {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 3px 8px;
+    display: inline-block;
+    width: fit-content;
+  }
+
+  .product-modal-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(18px, 2.5vw, 26px);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  .product-modal-price {
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    color: #fff;
+    letter-spacing: 0.04em;
+  }
+
+  .product-modal-divider {
+    border: none;
+    border-top: 1px solid #222;
+    margin: 0;
+  }
+
+  .product-modal-desc {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.7;
+  }
+
+  .product-modal-sizes {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .product-modal-sizes-label {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #555;
+  }
+
+  .product-modal-sizes-grid {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .product-size-btn {
+    border: 1px solid #333;
+    background: none;
+    color: #666;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    padding: 6px 14px;
+    cursor: default;
+    text-transform: uppercase;
+  }
+
+  .product-modal-notify {
+    background: none;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 14px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin-top: auto;
+  }
+  .product-modal-notify:hover { background: var(--accent); color: #000; }
+
+  .product-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: 1px solid #333;
+    color: #666;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 5px 12px;
+    cursor: pointer;
+    z-index: 2;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .product-modal-close:hover { color: #fff; border-color: #fff; }
+
+  .shop-item { cursor: pointer; }
+  .shop-item:hover { border-color: #444; }
   .fullscreen-overlay {
     display: none;
     position: fixed;
@@ -1469,7 +1758,7 @@
       <div class="slide-tag">Newsletter</div>
       <div class="slide-title">Stay in the<br>Frequency</div>
       <div class="slide-desc">Join our dispatch. Monthly selections, upcoming shows, and community news from Plesir Suites.</div>
-      <a href="mailto:plesirsuites@gmail.com" class="slide-cta" target="_blank">Subscribe</a>
+      <a href="#" class="slide-cta" onclick="openOverlay('newsletterOverlay'); return false;">Subscribe</a>
     </div>
   </div>
 
@@ -1671,6 +1960,34 @@
   <div class="overlay-sub">Live on our leisure days.</div>
 </div>
 
+<!-- NEWSLETTER OVERLAY -->
+<div class="fullscreen-overlay newsletter-overlay" id="newsletterOverlay">
+  <button class="overlay-close" onclick="closeOverlay('newsletterOverlay')">Close ✕</button>
+  <div class="newsletter-inner">
+    <div class="overlay-label">Plesir Suites Radio</div>
+    <div class="newsletter-title">Stay in the<br>Frequency</div>
+    <div class="newsletter-desc">Monthly selections, upcoming shows, and community news from everywhere.</div>
+    <form class="newsletter-form" onsubmit="submitNewsletter(event)">
+      <div class="newsletter-fields">
+        <div class="newsletter-field">
+          <label class="newsletter-label">First Name</label>
+          <input type="text" class="newsletter-input" id="nlFirstName" placeholder="Your name" required>
+        </div>
+        <div class="newsletter-field">
+          <label class="newsletter-label">Email Address</label>
+          <input type="email" class="newsletter-input" id="nlEmail" placeholder="your@email.com" required>
+        </div>
+      </div>
+      <button type="submit" class="newsletter-submit">Subscribe →</button>
+    </form>
+    <div class="newsletter-note">No spam. Unsubscribe anytime.</div>
+    <div class="newsletter-success" id="nlSuccess">
+      <div class="newsletter-success-icon">✓</div>
+      <div class="newsletter-success-text">You're in! Welcome to the frequency.</div>
+    </div>
+  </div>
+</div>
+
 <!-- ABOUT OVERLAY -->
 <div class="fullscreen-overlay" id="aboutOverlay">
   <button class="overlay-close" onclick="closeOverlay('aboutOverlay')">Close ✕</button>
@@ -1694,37 +2011,29 @@
     </div>
     <!-- Product Grid -->
     <div class="shop-grid">
-      <div class="shop-item">
-        <div class="shop-item-img">
-          <div class="shop-item-overlay-tag">Coming Soon</div>
-        </div>
+      <div class="shop-item" onclick="openProduct('plesir-tee')">
+        <div class="shop-item-img"><div class="shop-item-overlay-tag">Coming Soon</div></div>
         <div class="shop-item-info">
           <div class="shop-item-name">Plesir Suites Tee</div>
           <div class="shop-item-price">—</div>
         </div>
       </div>
-      <div class="shop-item">
-        <div class="shop-item-img">
-          <div class="shop-item-overlay-tag">Coming Soon</div>
-        </div>
+      <div class="shop-item" onclick="openProduct('ps-tote')">
+        <div class="shop-item-img"><div class="shop-item-overlay-tag">Coming Soon</div></div>
         <div class="shop-item-info">
           <div class="shop-item-name">P·S Tote Bag</div>
           <div class="shop-item-price">—</div>
         </div>
       </div>
-      <div class="shop-item">
-        <div class="shop-item-img">
-          <div class="shop-item-overlay-tag">Coming Soon</div>
-        </div>
+      <div class="shop-item" onclick="openProduct('neighbourhood-cap')">
+        <div class="shop-item-img"><div class="shop-item-overlay-tag">Coming Soon</div></div>
         <div class="shop-item-info">
           <div class="shop-item-name">Neighbourhood Cap</div>
           <div class="shop-item-price">—</div>
         </div>
       </div>
-      <div class="shop-item">
-        <div class="shop-item-img">
-          <div class="shop-item-overlay-tag">Coming Soon</div>
-        </div>
+      <div class="shop-item" onclick="openProduct('plesir-hoodie')">
+        <div class="shop-item-img"><div class="shop-item-overlay-tag">Coming Soon</div></div>
         <div class="shop-item-info">
           <div class="shop-item-name">Plesir Hoodie</div>
           <div class="shop-item-price">—</div>
@@ -1734,7 +2043,30 @@
     <!-- Notify CTA -->
     <div class="shop-notify">
       <div class="shop-notify-text">Be the first to know when we drop.</div>
-      <a href="mailto:info@plesirsuites.com?subject=Notify me when shop launches" class="shop-notify-btn">Notify Me</a>
+      <a href="mailto:plesirsuites@gmail.com?subject=Notify me when shop launches" class="shop-notify-btn">Notify Me</a>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT DETAIL OVERLAY -->
+<div class="product-overlay" id="productOverlay" onclick="closeProductOnBg(event)">
+  <div class="product-modal" id="productModal">
+    <button class="product-modal-close" onclick="closeProduct()">Close ✕</button>
+    <div class="product-modal-img" id="productImg">
+      <div class="product-modal-img-placeholder">Image Coming Soon</div>
+    </div>
+    <div class="product-modal-info">
+      <div class="product-modal-tag" id="productTag">Coming Soon</div>
+      <div class="product-modal-name" id="productName">—</div>
+      <div class="product-modal-price" id="productPrice">TBA</div>
+      <hr class="product-modal-divider">
+      <div class="product-modal-desc" id="productDesc">—</div>
+      <div class="product-modal-sizes" id="productSizesWrap">
+        <div class="product-modal-sizes-label">Available Sizes</div>
+        <div class="product-modal-sizes-grid" id="productSizes"></div>
+      </div>
+      <a href="mailto:plesirsuites@gmail.com?subject=Notify me" id="productNotify"
+         class="product-modal-notify">Notify Me When Available</a>
     </div>
   </div>
 </div>
@@ -1743,7 +2075,73 @@
 
 <script src="https://widget.mixcloud.com/media/js/widgetapi.js"></script>
 <script>
-/* ── MIXCLOUD POPUP ── */
+/* ── SHOP PRODUCT DETAIL ── */
+const PRODUCTS = {
+  'plesir-tee': {
+    name: 'Plesir Suites Tee',
+    price: 'TBA',
+    tag: 'Coming Soon',
+    desc: 'A heavyweight tee for your leisure days. The Plesir Suites logo sits on the chest — nothing special, just bring it on your leisure day. Limited edition, designed in Indonesia.',
+    sizes: ['S', 'M', 'L', 'XL'],
+  },
+  'ps-tote': {
+    name: 'P·S Tote Bag',
+    price: 'TBA',
+    tag: 'Coming Soon',
+    desc: 'A sturdy canvas tote for carrying your records, snacks, and everything in between. Built for neighbourhood errands and beyond.',
+    sizes: ['One Size'],
+  },
+  'neighbourhood-cap': {
+    name: 'Neighbourhood Cap',
+    price: 'TBA',
+    tag: 'Coming Soon',
+    desc: 'A structured 6-panel cap with the P·S mark embroidered on the front. Represent the neighbourhood wherever you go.',
+    sizes: ['One Size'],
+  },
+  'plesir-hoodie': {
+    name: 'Plesir Hoodie',
+    price: 'TBA',
+    tag: 'Coming Soon',
+    desc: 'A midweight pullover hoodie for cool nights and long listening sessions. Plesir Suites logo on the back, nothing on the front.',
+    sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+  },
+};
+
+function openProduct(id) {
+  const p = PRODUCTS[id];
+  if (!p) return;
+
+  document.getElementById('productName').textContent    = p.name;
+  document.getElementById('productPrice').textContent   = p.price;
+  document.getElementById('productTag').textContent     = p.tag;
+  document.getElementById('productDesc').textContent    = p.desc;
+  document.getElementById('productNotify').href         =
+    `mailto:plesirsuites@gmail.com?subject=Notify me — ${p.name}`;
+
+  // Render size buttons
+  const sizesEl = document.getElementById('productSizes');
+  sizesEl.innerHTML = p.sizes.map(s =>
+    `<div class="product-size-btn">${s}</div>`).join('');
+
+  document.getElementById('productOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeProduct() {
+  document.getElementById('productOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeProductOnBg(e) {
+  if (e.target === document.getElementById('productOverlay')) closeProduct();
+}
+
+// Also close on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeProduct();
+  }
+});
 function openMcPopup(feedKey, title) {
   const encoded = encodeURIComponent(feedKey);
   const src = 'https://www.mixcloud.com/widget/iframe/?hide_cover=1&mini=1&light=0&autoplay=true&feed=' + feedKey;
@@ -1757,7 +2155,7 @@ function closeMcPopupBtn() {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     closeMcPopupBtn();
-    ['aboutOverlay','shopOverlay','showsOverlay','supportusOverlay','streamOverlay'].forEach(id => closeOverlay(id));
+    ['aboutOverlay','shopOverlay','showsOverlay','supportusOverlay','streamOverlay','newsletterOverlay'].forEach(id => closeOverlay(id));
     closeBurger();
   }
 });
@@ -1965,6 +2363,24 @@ function resetShowsOverlay() {
 // e.g. 'https://www.mixcloud.com/widget/iframe/?hide_cover=1&mini=1&light=0&autoplay=true&feed=/plesirsuites_radio/live/'
 const MIXCLOUD_LIVE_URL = ''; // Leave empty until Pro is active
 
+/* ── NEWSLETTER ── */
+function submitNewsletter(e) {
+  e.preventDefault();
+  const name  = document.getElementById('nlFirstName').value.trim();
+  const email = document.getElementById('nlEmail').value.trim();
+  if (!name || !email) return;
+
+  // Send to mailto as fallback (replace with your email service later)
+  const subject = encodeURIComponent('Newsletter Subscription — Plesir Suites Radio');
+  const body    = encodeURIComponent(`Name: ${name}\nEmail: ${email}`);
+  window.open(`mailto:plesirsuites@gmail.com?subject=${subject}&body=${body}`);
+
+  // Show success
+  document.querySelector('.newsletter-form').style.display = 'none';
+  document.querySelector('.newsletter-note').style.display = 'none';
+  document.getElementById('nlSuccess').classList.add('show');
+}
+
 function openOverlay(id) {
   document.getElementById(id).classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1993,6 +2409,13 @@ function closeOverlay(id) {
   document.body.style.overflow = '';
   if (id === 'streamOverlay') stopStream();
   if (id === 'showsOverlay') resetShowsOverlay();
+  if (id === 'newsletterOverlay') {
+    document.querySelector('.newsletter-form').style.display = 'flex';
+    document.querySelector('.newsletter-note').style.display = 'block';
+    document.getElementById('nlSuccess').classList.remove('show');
+    document.getElementById('nlFirstName').value = '';
+    document.getElementById('nlEmail').value = '';
+  }
 }
 
 document.addEventListener('click', e => {
