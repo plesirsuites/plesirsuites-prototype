@@ -1117,24 +1117,28 @@
   .newsletter-overlay {
     justify-content: center !important;
     align-items: center !important;
-    text-align: left !important;
+    text-align: center !important;
     padding: 80px 40px 40px !important;
   }
 
   .newsletter-inner {
-    max-width: 520px;
+    max-width: 720px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .newsletter-title {
     font-family: 'Syne', sans-serif;
-    font-size: clamp(32px, 5vw, 64px);
+    font-size: clamp(20px, 3vw, 36px);
     font-weight: 800;
     color: #fff;
     line-height: 1.05;
     letter-spacing: -0.02em;
     text-transform: uppercase;
     margin-bottom: 16px;
+    white-space: nowrap;
   }
 
   .newsletter-desc {
@@ -1149,18 +1153,22 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    width: 100%;
   }
 
   .newsletter-fields {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    width: 100%;
   }
 
   .newsletter-field {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    width: 100%;
+    text-align: left;
   }
 
   .newsletter-label {
@@ -1965,8 +1973,8 @@
   <button class="overlay-close" onclick="closeOverlay('newsletterOverlay')">Close ✕</button>
   <div class="newsletter-inner">
     <div class="overlay-label">Plesir Suites Radio</div>
-    <div class="newsletter-title">Stay in the<br>Frequency</div>
-    <div class="newsletter-desc">Monthly selections, upcoming shows, and community news from everywhere.</div>
+    <div class="newsletter-title">Stay in the Frequency</div>
+    <div class="newsletter-desc">Monthly selections, upcoming shows, and community news from Us to Yours.</div>
     <form class="newsletter-form" onsubmit="submitNewsletter(event)">
       <div class="newsletter-fields">
         <div class="newsletter-field">
