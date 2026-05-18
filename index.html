@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -896,7 +895,7 @@
 
   .stream-desc {
     font-size: 12px;
-    color: #555;
+    color: #ffffff;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     margin-bottom: 8px;
@@ -1021,7 +1020,7 @@
 
   .shop-banner-sub {
     font-size: 11px;
-    color: #666;
+    color: #ffffff;
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
@@ -1144,7 +1143,7 @@
 
   .newsletter-desc {
     font-size: 12px;
-    color: #666;
+    color: #ffffff;
     line-height: 1.7;
     letter-spacing: 0.04em;
     margin-bottom: 36px;
@@ -1176,12 +1175,12 @@
     font-size: 9px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: #555;
+    color: #ffffff;
   }
 
   .newsletter-input {
     background: #111;
-    border: 1px solid #333;
+    border: 1px solid #ffffff;
     color: #fff;
     font-family: 'DM Mono', monospace;
     font-size: 13px;
@@ -1191,8 +1190,8 @@
     width: 100%;
     box-sizing: border-box;
   }
-  .newsletter-input::placeholder { color: #444; }
-  .newsletter-input:focus { border-color: #666; }
+  .newsletter-input::placeholder { color: #ffffff; }
+  .newsletter-input:focus { border-color: #ffffff; }
 
   .newsletter-submit {
     background: var(--accent);
@@ -1212,7 +1211,7 @@
 
   .newsletter-note {
     font-size: 10px;
-    color: #444;
+    color: #ffffff;
     letter-spacing: 0.06em;
     margin-top: 12px;
   }
@@ -1224,7 +1223,7 @@
     gap: 10px;
     margin-top: 24px;
     padding: 20px;
-    border: 1px solid #333;
+    border: 1px solid #ffffff;
     background: #111;
   }
   .newsletter-success.show { display: flex; }
@@ -1236,13 +1235,92 @@
 
   .newsletter-success-text {
     font-size: 13px;
-    color: #fff;
+    color: #fffefe;
     letter-spacing: 0.04em;
   }
 
   @media (max-width: 600px) {
     .newsletter-overlay { padding: 70px 24px 32px !important; }
   }
+
+  .product-modal-slides {
+    position: relative;
+    overflow: hidden;
+    background: #1a1a1a;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .product-slide-track {
+    display: flex;
+    width: 100%;
+    transition: transform 0.35s ease;
+  }
+
+  .product-slide {
+    min-width: 100%;
+    aspect-ratio: 1/1;
+    background-size: cover;
+    background-position: center;
+    background-color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .product-slide-placeholder {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #333;
+    border: 1px solid #222;
+    padding: 6px 14px;
+  }
+
+  .product-slide-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    transition: background 0.15s;
+    line-height: 1;
+  }
+  .product-slide-btn:hover { background: rgba(0,0,0,0.85); }
+  .product-slide-btn.prev { left: 8px; }
+  .product-slide-btn.next { right: 8px; }
+  .product-slide-btn.hidden { display: none; }
+
+  .product-slide-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 2;
+  }
+
+  .product-slide-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.35);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .product-slide-dot.active { background: #fff; }
 
   /* ── PRODUCT DETAIL OVERLAY ── */
   .product-overlay {
@@ -1273,26 +1351,6 @@
 
   @media (max-width: 640px) {
     .product-modal { grid-template-columns: 1fr; }
-  }
-
-  .product-modal-img {
-    aspect-ratio: 1/1;
-    background: #1a1a1a;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 300px;
-  }
-
-  .product-modal-img-placeholder {
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #333;
-    border: 1px solid #222;
-    padding: 6px 14px;
   }
 
   .product-modal-info {
@@ -1459,7 +1517,7 @@
     font-size: 10px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #555;
+    color: #ffffff;
     margin-bottom: 28px;
   }
 
@@ -1477,7 +1535,7 @@
   .overlay-sub {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
-    color: #555;
+    color: #ffffff;
     margin-top: 28px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -1488,6 +1546,21 @@
     .overlay-text { font-size: clamp(14px, 5vw, 26px); }
     .fullscreen-overlay { padding: 70px 24px 32px; }
   }
+
+  .support-btn {
+    display: inline-block;
+    margin-top: 32px;
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #000;
+    background: var(--accent);
+    padding: 14px 36px;
+    transition: opacity 0.15s;
+  }
+  .support-btn:hover { opacity: 0.85; }
 
   /* Shows overlay specific */
   .shows-overlay {
@@ -1967,6 +2040,7 @@
   <div class="overlay-label">Plesir Suites Radio</div>
   <div class="overlay-text">We're just a group of people who love good music and our local scene. We want to keep Plesir Suites as a free space for everyone to explore new sounds, but we can't do it alone. By supporting us, you're helping keep the broadcast crisp and we keep the sounds on.</div>
   <div class="overlay-sub">Live on our leisure days.</div>
+  <a href="https://sociabuzz.com/plesirsuites/support" target="_blank" rel="noopener" class="support-btn">Support Us →</a>
 </div>
 
 <!-- NEWSLETTER OVERLAY -->
@@ -1975,7 +2049,7 @@
   <div class="newsletter-inner">
     <div class="overlay-label">Plesir Suites Radio</div>
     <div class="newsletter-title">Stay in the Frequency</div>
-    <div class="newsletter-desc">Monthly selections, upcoming shows, and community news from Us to Yours.</div>
+    <div class="newsletter-desc">Monthly selections, upcoming shows, and community news from South Kalimantan.</div>
     <form class="newsletter-form" onsubmit="submitNewsletter(event)">
       <div class="newsletter-fields">
         <div class="newsletter-field">
@@ -2011,48 +2085,13 @@
     <div class="shop-overlay-logo">Plesir Suites — Shop</div>
     <button class="shop-overlay-close" onclick="closeOverlay('shopOverlay')">Close ✕</button>
   </div>
-  <div class="shop-overlay-body">
-    <!-- Coming Soon Banner -->
-    <div class="shop-banner">
-      <div class="shop-banner-tag">Coming Soon</div>
+  <div class="shop-overlay-body" style="display:flex;align-items:center;justify-content:center;flex:1;">
+    <div style="text-align:center;">
+      <div class="shop-banner-tag" style="display:inline-block;margin-bottom:20px;">Coming Soon</div>
       <div class="shop-banner-title">Official Merchandise</div>
-      <div class="shop-banner-sub">Made in Indonesia. Shipped everywhere.</div>
-    </div>
-    <!-- Product Grid -->
-    <div class="shop-grid">
-      <div class="shop-item" onclick="openProduct('plesir-tee')">
-        <div class="shop-item-img"><div class="shop-item-overlay-tag">Coming Soon</div></div>
-        <div class="shop-item-info">
-          <div class="shop-item-name">Plesir Suites Tee</div>
-          <div class="shop-item-price">—</div>
-        </div>
-      </div>
-      <div class="shop-item" onclick="openProduct('ps-tote')">
-        <div class="shop-item-img"><div class="shop-item-overlay-tag">Coming Soon</div></div>
-        <div class="shop-item-info">
-          <div class="shop-item-name">P·S Tote Bag</div>
-          <div class="shop-item-price">—</div>
-        </div>
-      </div>
-      <div class="shop-item" onclick="openProduct('neighborhood-cap')">
-        <div class="shop-item-img"><div class="shop-item-overlay-tag">Coming Soon</div></div>
-        <div class="shop-item-info">
-          <div class="shop-item-name">Neighborhood Cap</div>
-          <div class="shop-item-price">—</div>
-        </div>
-      </div>
-      <div class="shop-item" onclick="openProduct('plesir-hoodie')">
-        <div class="shop-item-img"><div class="shop-item-overlay-tag">Coming Soon</div></div>
-        <div class="shop-item-info">
-          <div class="shop-item-name">Plesir Hoodie</div>
-          <div class="shop-item-price">—</div>
-        </div>
-      </div>
-    </div>
-    <!-- Notify CTA -->
-    <div class="shop-notify">
-      <div class="shop-notify-text">Be the first to know when we drop.</div>
-      <a href="mailto:plesirsuites@gmail.com?subject=Notify me when shop launches" class="shop-notify-btn">Notify Me</a>
+      <div class="shop-banner-sub" style="margin-top:12px;">Limited edition merch. Designed in Indonesia. Shipped everywhere.</div>
+      <a href="mailto:plesirsuites@gmail.com?subject=Notify me when shop launches"
+         class="shop-notify-btn" style="display:inline-block;margin-top:28px;">Notify Me</a>
     </div>
   </div>
 </div>
@@ -2061,9 +2100,17 @@
 <div class="product-overlay" id="productOverlay" onclick="closeProductOnBg(event)">
   <div class="product-modal" id="productModal">
     <button class="product-modal-close" onclick="closeProduct()">Close ✕</button>
-    <div class="product-modal-img" id="productImg">
-      <div class="product-modal-img-placeholder">Image Coming Soon</div>
+
+    <!-- Image Slideshow -->
+    <div class="product-modal-slides" id="productSlides">
+      <div class="product-slide-track" id="productSlideTrack">
+        <!-- slides injected by JS -->
+      </div>
+      <button class="product-slide-btn prev" id="productPrev" onclick="productSlide(-1)">&#8249;</button>
+      <button class="product-slide-btn next" id="productNext" onclick="productSlide(1)">&#8250;</button>
+      <div class="product-slide-dots" id="productDots"></div>
     </div>
+
     <div class="product-modal-info">
       <div class="product-modal-tag" id="productTag">Coming Soon</div>
       <div class="product-modal-name" id="productName">—</div>
@@ -2092,20 +2139,35 @@ const PRODUCTS = {
     tag: 'Coming Soon',
     desc: 'A heavyweight tee for your leisure days. The Plesir Suites logo sits on the chest — nothing special, just bring it on your leisure day. Limited edition, designed in Indonesia.',
     sizes: ['S', 'M', 'L', 'XL'],
+    images: [
+      'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80',
+      'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=800&q=80',
+      'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800&q=80',
+    ],
   },
   'ps-tote': {
     name: 'P·S Tote Bag',
     price: 'TBA',
     tag: 'Coming Soon',
-    desc: 'A sturdy canvas tote for carrying your records, snacks, and everything in between. Built for neighborhood errands and beyond.',
+    desc: 'A sturdy canvas tote for carrying your records, snacks, and everything in between. Built for neighbourhood errands and beyond.',
     sizes: ['One Size'],
+    images: [
+      'https://images.unsplash.com/photo-1591561954557-26941169b49e?w=800&q=80',
+      'https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&q=80',
+      'https://images.unsplash.com/photo-1622560480654-d96214fdc887?w=800&q=80',
+    ],
   },
-  'neighborhood-cap': {
-    name: 'Neighborhood Cap',
+  'neighbourhood-cap': {
+    name: 'Neighbourhood Cap',
     price: 'TBA',
     tag: 'Coming Soon',
-    desc: 'A structured 6-panel cap with the P·S mark embroidered on the front. Represent the neighborhood wherever you go.',
+    desc: 'A structured 6-panel cap with the P·S mark embroidered on the front. Represent the neighbourhood wherever you go.',
     sizes: ['One Size'],
+    images: [
+      'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=800&q=80',
+      'https://images.unsplash.com/photo-1556306535-0f09a537f0a3?w=800&q=80',
+      'https://images.unsplash.com/photo-1620487729077-1280d8b47f4b?w=800&q=80',
+    ],
   },
   'plesir-hoodie': {
     name: 'Plesir Hoodie',
@@ -2113,27 +2175,79 @@ const PRODUCTS = {
     tag: 'Coming Soon',
     desc: 'A midweight pullover hoodie for cool nights and long listening sessions. Plesir Suites logo on the back, nothing on the front.',
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+    images: [
+      'https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=800&q=80',
+      'https://images.unsplash.com/photo-1509942774463-acf339cf87d5?w=800&q=80',
+      'https://images.unsplash.com/photo-1578768079052-aa76e52ff62e?w=800&q=80',
+    ],
   },
 };
+
+let productSlideIndex = 0;
+let productSlideTotal = 0;
 
 function openProduct(id) {
   const p = PRODUCTS[id];
   if (!p) return;
 
-  document.getElementById('productName').textContent    = p.name;
-  document.getElementById('productPrice').textContent   = p.price;
-  document.getElementById('productTag').textContent     = p.tag;
-  document.getElementById('productDesc').textContent    = p.desc;
-  document.getElementById('productNotify').href         =
+  document.getElementById('productName').textContent  = p.name;
+  document.getElementById('productPrice').textContent = p.price;
+  document.getElementById('productTag').textContent   = p.tag;
+  document.getElementById('productDesc').textContent  = p.desc;
+  document.getElementById('productNotify').href =
     `mailto:plesirsuites@gmail.com?subject=Notify me — ${p.name}`;
 
-  // Render size buttons
+  // Sizes
   const sizesEl = document.getElementById('productSizes');
   sizesEl.innerHTML = p.sizes.map(s =>
     `<div class="product-size-btn">${s}</div>`).join('');
 
+  // Build slideshow
+  productSlideIndex = 0;
+  const track  = document.getElementById('productSlideTrack');
+  const dots   = document.getElementById('productDots');
+  const images = p.images && p.images.length ? p.images : [];
+
+  if (images.length === 0) {
+    // No images yet — show placeholder
+    track.innerHTML = `<div class="product-slide"><div class="product-slide-placeholder">Image Coming Soon</div></div>`;
+    dots.innerHTML  = '';
+    productSlideTotal = 1;
+    document.getElementById('productPrev').classList.add('hidden');
+    document.getElementById('productNext').classList.add('hidden');
+  } else {
+    track.innerHTML = images.map(url =>
+      `<div class="product-slide" style="background-image:url('${url}')"></div>`
+    ).join('');
+    productSlideTotal = images.length;
+    dots.innerHTML = images.map((_, i) =>
+      `<div class="product-slide-dot ${i === 0 ? 'active' : ''}" onclick="goProductSlide(${i})"></div>`
+    ).join('');
+    const hidden = images.length <= 1 ? 'hidden' : '';
+    document.getElementById('productPrev').className = `product-slide-btn prev ${hidden}`;
+    document.getElementById('productNext').className = `product-slide-btn next ${hidden}`;
+  }
+
+  track.style.transform = 'translateX(0)';
   document.getElementById('productOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+function productSlide(dir) {
+  productSlideIndex = (productSlideIndex + dir + productSlideTotal) % productSlideTotal;
+  updateProductSlide();
+}
+
+function goProductSlide(idx) {
+  productSlideIndex = idx;
+  updateProductSlide();
+}
+
+function updateProductSlide() {
+  document.getElementById('productSlideTrack').style.transform =
+    `translateX(-${productSlideIndex * 100}%)`;
+  document.querySelectorAll('.product-slide-dot').forEach((d, i) =>
+    d.classList.toggle('active', i === productSlideIndex));
 }
 
 function closeProduct() {
@@ -2145,11 +2259,9 @@ function closeProductOnBg(e) {
   if (e.target === document.getElementById('productOverlay')) closeProduct();
 }
 
-// Also close on Escape
+// Close on Escape
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeProduct();
-  }
+  if (e.key === 'Escape') closeProduct();
 });
 function openMcPopup(feedKey, title) {
   const encoded = encodeURIComponent(feedKey);
