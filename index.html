@@ -1716,8 +1716,19 @@
 
   @media (max-width: 768px) {
     footer { grid-template-columns: 1fr; }
-    .footer-collab { align-items: flex-start; text-align: left; }
-    .footer-links { align-items: flex-start; }
+    .footer-collab {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: left;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .footer-collab-label { margin-bottom: 0; flex-shrink: 0; }
+    .footer-collab-logos { justify-content: flex-start; }
+    .footer-links { align-items: center; text-align: center; }
+    .footer-links-row { justify-content: center; flex-wrap: wrap; }
+    .footer-archive { text-align: center; }
     .h-nav { display: none; }
     header { grid-template-columns: auto auto 1fr; }
 
