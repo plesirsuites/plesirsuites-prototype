@@ -2,8 +2,8 @@
   "name": "Plesir Suites Radio",
   "short_name": "Plesir Suites",
   "description": "Your neighbourhood's independent web radio from South Kalimantan.",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/plesirsuites-prototype/index.html",
+  "scope": "/plesirsuites-prototype/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
@@ -12,13 +12,13 @@
   "categories": ["music", "entertainment"],
   "icons": [
     {
-      "src": "assets/images/icon-192.png",
+      "src": "/plesirsuites-prototype/assets/images/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "assets/images/icon-512.png",
+      "src": "/plesirsuites-prototype/assets/images/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

@@ -1,11 +1,11 @@
-const CACHE_NAME = 'plesir-suites-v1';
+const CACHE_NAME = 'plesir-suites-v2';
 
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/assets/images/icon-192.png',
-  '/assets/images/icon-512.png',
+  '/plesirsuites-prototype/',
+  '/plesirsuites-prototype/index.html',
+  '/plesirsuites-prototype/manifest.json',
+  '/plesirsuites-prototype/assets/images/icon-192.png',
+  '/plesirsuites-prototype/assets/images/icon-512.png',
   'https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap',
 ];
 
@@ -48,7 +48,7 @@ self.addEventListener('fetch', e => {
       }).catch(() => {
         // Offline fallback — return index.html
         if (e.request.destination === 'document') {
-          return caches.match('/index.html');
+          return caches.match('/plesirsuites-prototype/index.html');
         }
       });
     })
